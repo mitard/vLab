@@ -3,7 +3,7 @@ bannerFile=/etc/ssh/ssh_banner
 
 dpkg -i /var/python3-proxmoxer_2.2.0-2_all.deb
 ansible-galaxy collection install git+https://github.com/ansible-collections/community.proxmox.git -p /usr/share/ansible/collections
-tar -gunzip --extract --absolute-names --file /var/AnsibleEnv.tar.gz
+#tar -gunzip --extract --absolute-names --file /var/AnsibleEnv.tar.gz
 echo "" > $bannerFile
 figlet -c -f slant -k "Pod ${HOSTNAME: -1}" >> $bannerFile
 echo "" >> $bannerFile
