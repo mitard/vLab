@@ -12,7 +12,7 @@ figlet -c -f slant -k "Pod ${HOSTNAME: -1}" >> $bannerFile
 echo "" >> $bannerFile
 figlet -c -f term 'Serveur Ansible (Automatisation de la gestion du lab)' >> $bannerFile
 echo "" >> $bannerFile
-echo "PodID=${HOSTNAME: -1}" >> ~ansible/.profile
+echo "export PodID=${HOSTNAME: -1}" >> ~ansible/.profile
 
 # Installation de l'environnement Ansible pour l'utilisateur ansible
 curl --location $ansibleEnvURL --output $ansibleEnv
