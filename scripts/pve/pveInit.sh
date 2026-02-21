@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Script de configuration initiale d'un hyperviseur Proxmox
 #
@@ -11,7 +11,7 @@ authenticationFileDir=~/vLab/hostFiles/ansible
 apt-get install -y figlet libguestfs-tools
 
 # Personnalisation de la bannière de connexion
-figlet -f banner -c $HOSTNAME > /etc/ssh/ssh_banner
+figlet -f banner -c "$HOSTNAME" > /etc/ssh/ssh_banner
 sed -i "s/#Banner none/Banner \/etc\/ssh\/ssh_banner/" /etc/ssh/sshd_config
 
 # Personnalisation du Shell
@@ -37,10 +37,10 @@ pveum aclmod / -user ansible@pve -role AnsibleMgmt
 userName=`grep tokenid /var/tmp/tokeData | cut -d'!' -f1 | cut -d' ' -f4`
 tokenName=`grep tokenid /var/tmp/tokeData | cut -d'!' -f2 | cut -d' ' -f1`
 token=`grep value /var/tmp/tokeData | grep -v key | cut -d' ' -f11`
-echo "pve_api_host: $HOSTNAME" > $authentifcationFileDir/$authenticationFileName
-echo "pve_api_user: $userName" >> $authentifcationFileDir/$authenticationFileName
-echo "pve_api_token_id: $tokenName" >> $authentifcationFileDir/$authenticationFileName
-echo "pve_api_token_secret: $token" >> $authentifcationFileDir/$authenticationFileName
+echo "pve_api_host: $HOSTNAME" > $authenticationFileDir/$authenticationFileName
+echo "pve_api_user: $userName" >> $authenticationFileDir/$authenticationFileName
+echo "pve_api_token_id: $tokenName" >> $authenticationFileDir/$authenticationFileName
+echo "pve_api_token_secret: $token" >> $authenticationFileDir/$authenticationFileName
 
 # Installation du package python3-proxmoxer depuis la version Trixie (Debian 13)
 curl -LO http://ftp.de.debian.org/debian/pool/main/p/proxmoxer/python3-proxmoxer_2.2.0-1_all.deb
