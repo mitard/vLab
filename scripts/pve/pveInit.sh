@@ -37,6 +37,7 @@ pveum aclmod / -user ansible@pve -role AnsibleMgmt
 userName=`grep tokenid /var/tmp/tokeData | cut -d'!' -f1 | cut -d' ' -f4`
 tokenName=`grep tokenid /var/tmp/tokeData | cut -d'!' -f2 | cut -d' ' -f1`
 token=`grep value /var/tmp/tokeData | grep -v key | cut -d' ' -f11`
+rm /var/tmp/tokenData
 echo "pve_api_host: $HOSTNAME" > $authenticationFileDir/$authenticationFileName
 echo "pve_api_user: $userName" >> $authenticationFileDir/$authenticationFileName
 echo "pve_api_token_id: $tokenName" >> $authenticationFileDir/$authenticationFileName

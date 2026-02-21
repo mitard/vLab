@@ -13,8 +13,8 @@ startupScriptURL="https://raw.githubusercontent.com/mitard/vLab/refs/heads/main/
 startupScript="/root/initialStartup.sh"
 
 if [ $# -eq 0 ]; then
-  echo "\n-E- Paramètres obligatoires absents !"
-  echo "-I- $scriptName -h|-H pour obtenir l'aide en ligne.\n"
+  echo -e "\n-E- Paramètres obligatoires absents !"
+  echo -e "-I- $scriptName -h|-H pour obtenir l'aide en ligne.\n"
   exit 1
 fi
 
@@ -25,10 +25,10 @@ while getopts "dDf:hHi:mn:" opt; do
     f) imageFile=`basename $OPTARG`
        imageFullPath=`realpath $OPTARG`
        ;;
-    h|H) echo "\n-I- $scriptName permet la création d'un modèle de VM Ansible, basé sur Ubuntu, pour la gestion d'un lab de routage virtuel."
-         echo "-I- $scriptName [-d|-D] [-h|-H] -f <Chemin complet de l'image .IMG Ubuntu de base> -i <ID du modèle à créer> -n <Nom du modèle à créer>"
-         echo "\t-d/-D: Activation du débogage."
-         echo "\t-h/-H: Affichage de cette aide en ligne."
+    h|H) echo -e "\n-I- $scriptName permet la création d'un modèle de VM Ansible, basé sur Ubuntu, pour la gestion d'un lab de routage virtuel."
+         echo -e "-I- $scriptName [-d|-D] [-h|-H] -f <Chemin complet de l'image .IMG Ubuntu de base> -i <ID du modèle à créer> -n <Nom du modèle à créer>"
+         echo -e "\t-d/-D: Activation du débogage."
+         echo -e "\t-h/-H: Affichage de cette aide en ligne."
          exit 0
          ;;
     i) ID=$OPTARG
@@ -43,19 +43,19 @@ done
 shift $((OPTIND-1))
 
 if [ $# -ne 0 ]; then
-  echo "\n-E- Argument(s) $* invalide pour ce script !\n"
+  echo -e "\n-E- Argument(s) $* invalide pour ce script !\n"
   exit 2
 fi
 
 res=`qm list | tr -s ' ' | cut -d' ' -f2 | grep $ID`
 
 if [ "$res" != "" ]; then
-  echo "\n-E- ID de machine virtuelle ou de modèle existant !\n"
+  echo -e "\n-E- ID de machine virtuelle ou de modèle existant !\n"
   exit 4
 fi
 
 if [ ! -f $imageFullPath ]; then
-  echo "\n-E- Fichier image IMG non trouvé !\n"
+  echo -e "\n-E- Fichier image IMG non trouvé !\n"
   exit 3
 else
   tmpImageFile="/var/tmp/ansibleTemporaryImageFile.qcow2"
