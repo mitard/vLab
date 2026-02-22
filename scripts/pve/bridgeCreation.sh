@@ -12,19 +12,28 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-while getopts "dDf:hH" opt; do
+while getopts "a:dDf:hHi:n:" opt; do
   case $opt in
+    a) IPaddress=$OPTARG
+       ;;
     d|D) set -x
          ;;
     f) imageFile=`basename $OPTARG`
        imageFullPath=`realpath $OPTARG`
        ;;
     h|H) echo -e "\n-I- $scriptName permet la création d'une passerelle virtuel à partir d'une image QCOW2 Debian"
-         echo -e "-I- $scriptName [-d|-D] [-h|-H] -f <Chemin complet de l'image QCOW2>"
-         echo -e "\t-d/-D: Activation du débogage."
-         echo -e "\t-h/-H: Affichage de cette aide en ligne."
+         echo -e "-I- $scriptName -a <@IP >[-d|-D] [-h|-H] -f <Chemin complet de l'image QCOW2> -i <VMID> -n <Nom de la VM>"
+         echo -e "\t-a   : Adresse IP exposée de la passerelle."
+         echo -e "\t-d|D : Activation du débogage."
+         echo -e "\t-h|H : Affichage de cette aide en ligne."
+         echo -e "\t-i   : ID de la machine virtuelle."
+         echo -e "\t-n   : Nom de la machine virtuelle."
          exit 0
          ;;
+    i) ID=$OPTARG
+       ;;
+    n) VMname=$OPTARG
+       ;;
     *) echo -e "\n-E- Option $opt invalide !\n"
        ;;
   esac
@@ -55,7 +64,7 @@ virt-customize -a $tmpImageFile --install qemu-guest-agent,iptables,iptables-per
 virt-customize -a $tmpImageFile --update
 
 echo -e "-I- Copie de fichiers de configuration"
-virt-customize -a $tmpImageFile --copy-in /var/lib/vz/template/configuration-files/rules.v4:/etc/iptables
+virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/bridge/rules.v4:/etc/iptables
 
 echo -e "-I- Configuration de l'accès distant SSH"
 # Autorisation de la connexion SSH par login/password
@@ -74,13 +83,14 @@ virt-customize -a $tmpImageFile --run-command 'update-grub'
 virt-customize -a $tmpImageFile --run-command 'truncate -s 0 /etc/machine-id'
 
 echo -e "-I- Création et personnalisation de la machine virtuelle"
-qm create $ID --name $templateName --cores 1 --memory 1024 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=mgmtNets --scsihw virtio-scsi-pci --agent 1
-qm set $ID --ciuser net-admin --cipassword admin
-qm set $ID --ipconfig1 ip=172.16.0.1/16
-qm set $ID --ipconfig0 ip=dhcp
+qm create $ID --name $VMname --cores 1 --memory 512 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=mgmtNets --scsihw virtio-scsi-pci --agent 1 --onboot --ciuser net-admin --cipassword admin --ipconfig0 ip=$IPaddress --ipconfig1 ip=172.16.0.1/16
 
 qm set $ID --virtio0 local-lvm:0,import-from=$tmpImageFile > /dev/null
 qm set $ID --ide2 local-lvm:cloudinit
 qm set $ID --boot order=virtio0
 
+# Suppression de l'image temporaire
 rm $tmpImageFile
+
+# Démarrage de la VM
+qm start $ID
