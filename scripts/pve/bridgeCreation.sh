@@ -2,7 +2,6 @@
 #
 # 2026-11-21 - V. Mitard : Création
 #
-# $1 : Fichier qcow2 à personnaliser
 
 scriptName=`basename $0`
 
@@ -12,7 +11,7 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-while getopts "a:dDf:hHi:n:" opt; do
+while getopts "a:dDf:g:hHi:n:" opt; do
   case $opt in
     a) IPaddress=$OPTARG
        ;;
@@ -20,6 +19,8 @@ while getopts "a:dDf:hHi:n:" opt; do
          ;;
     f) imageFile=`basename $OPTARG`
        imageFullPath=`realpath $OPTARG`
+       ;;
+    g) gwIPaddress=$OPTARG
        ;;
     h|H) echo -e "\n-I- $scriptName permet la création d'une passerelle virtuel à partir d'une image QCOW2 Debian"
          echo -e "-I- $scriptName -a <@IP >[-d|-D] [-h|-H] -f <Chemin complet de l'image QCOW2> -i <VMID> -n <Nom de la VM>"
@@ -83,7 +84,7 @@ virt-customize -a $tmpImageFile --run-command 'update-grub'
 virt-customize -a $tmpImageFile --run-command 'truncate -s 0 /etc/machine-id'
 
 echo -e "-I- Création et personnalisation de la machine virtuelle"
-qm create $ID --name $VMname --cores 1 --memory 512 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=mgmtNets --scsihw virtio-scsi-pci --agent 1 --onboot --ciuser net-admin --cipassword admin --ipconfig0 ip=$IPaddress --ipconfig1 ip=172.16.0.1/16
+qm create $ID --name $VMname --cores 1 --memory 512 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=mgmtNets --scsihw virtio-scsi-pci --agent 1 --onboot --ciuser net-admin --cipassword admin --ipconfig0 ip=$IPaddress,gw=$gwIPaddress --ipconfig1 ip=172.16.0.1/16
 
 qm set $ID --virtio0 local-lvm:0,import-from=$tmpImageFile > /dev/null
 qm set $ID --ide2 local-lvm:cloudinit

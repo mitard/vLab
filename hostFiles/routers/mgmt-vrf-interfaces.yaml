@@ -1,0 +1,5 @@
+    vrfs:
+        mgmt-vrf:
+            table: 1
+            interfaces:
+                - eth0
