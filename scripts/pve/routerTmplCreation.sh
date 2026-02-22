@@ -80,7 +80,7 @@ virt-customize -a $tmpImageFile --chmod 644:/etc/frr/vtysh.conf
 virt-customize -a $tmpImageFile --update
 
 echo "-I- Copie de fichiers de configuration"
-Copie du fichier de création d'une VRF pour l'interface de management du routeur
+# Copie du fichier de création d'une VRF pour l'interface de management du routeur
 virt-customize -a $tmpImageFile --copy-in $cfgFilesDir/mgmt-vrf-interfaces.yaml:/usr/local/src
 virt-customize -a $tmpImageFile --copy-in $cfgFilesDir/mgmt-vrf-conf.sh:/usr/local/bin
 
