@@ -22,3 +22,9 @@ chown ansible:ansible /home/ansible/.ansible
 # Initialisation du fichier d'hôte Ansible
 mv ~ansible/.ansible/hostsPod ~ansible/.ansible/hosts
 sed -i "s/PodID/${HOSTNAME: -1}/" ~ansible/.ansible/hosts
+
+# Récupération des scripts et playbooks Ansible
+git clone https://github.com/mitard/virtualLab-playbooks.git ~ansible/playbooks
+chown -R ansible:ansible ~ansible/playbooks
+git clone https://github.com/mitard/virtualLab-AnsibleScripts.git ~ansible/scripts
+chown -R ansible:ansible ~ansible/scripts

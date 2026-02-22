@@ -5,10 +5,6 @@
 # 2026-01-11 - V. Mitard : Ajout de génération d'un modèle pour la passerelle de management
 # 2026-02-22 - V. Mitard : Suppression de la passerelle de management, gérée comme une VM à part entière, sans template
 #
-# $1 : Fichier qcow2 à personnaliser
-# $2 : No PVE de modèle
-# $3 : Nom du modèle
-
 scriptName=`basename $0`
 cfgFilesDir=/root/vLab/hostFiles/routers
 
@@ -25,13 +21,11 @@ while getopts "dDf:hHi:mn:" opt; do
     f) imageFile=`basename $OPTARG`
        imageFullPath=`realpath $OPTARG`
        ;;
-    h|H) echo "\n-I- $scriptName permet la création d'un modèle de routeur ou passerelle virtuel à partir d'une image QCOW2 Debian"
-         echo "-I- $scriptName [-d|-D] [-h|-H] -B|-R -f <Chemin complet de l'image QCOW2> -i <ID du modèle à créer> -n <Nom du modèle à créer> [-m]"
-         echo "\t-B : Création de modèle de passerelle"
-         echo "\t-d/-D: Activation du débogage."
-         echo "\t-h/-H: Affichage de cette aide en ligne."
-         echo "\t-m: Ajout des fonctionnatlités MPLS.\n"
-         echo "\t-R : Création de modèle de routeur"
+    h|H) echo "\n-I- $scriptName permet la création d'un modèle de routeur virtuel à partir d'une image QCOW2 Debian"
+         echo "-I- $scriptName [-d|-D] [-h|-H] -f <Chemin complet de l'image QCOW2> -i <ID du modèle à créer> -n <Nom du modèle à créer> [-m]"
+         echo "\t-d|D : Activation du débogage."
+         echo "\t-h|H : Affichage de cette aide en ligne."
+         echo "\t-m   : Ajout des fonctionnatlités MPLS.\n"
          exit 0
          ;;
     i) ID=$OPTARG
