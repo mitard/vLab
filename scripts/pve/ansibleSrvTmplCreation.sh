@@ -83,6 +83,7 @@ virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/"$HOSTNAM
 #virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/AnsibleEnv.tar.gz:/var
 #virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/init.sh:/root
 virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/proxmox.yml:/root
+virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/host:/var/tmp
 # Configuration intiale au démarrage
 virt-customize -a $tmpImageFile --firstboot-command "curl --location $startupScriptURL --output $startupScript;chmod a+x $startupScript;$startupScript"
 

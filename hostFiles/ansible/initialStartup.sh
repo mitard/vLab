@@ -20,8 +20,10 @@ tar -gunzip --extract --absolute-names --file $ansibleEnv
 chown ansible:ansible /home/ansible/.ansible
 
 # Initialisation du fichier d'hôte Ansible
-mv ~ansible/.ansible/hostsPod ~ansible/.ansible/hosts
-sed -i "s/PodID/${HOSTNAME: -1}/" ~ansible/.ansible/hosts
+sed -i "s/PodID/${HOSTNAME: -1}/" ~ansible/.ansible/hostsPod
+cp /var/tmp/host ~ansible/.ansible/hosts
+cat ~ansible/.ansible/hostsPod >> ~ansible/.ansible/hosts
+rm ~ansible/.ansible/hostsPod
 
 # Récupération des scripts et playbooks Ansible
 git clone https://github.com/mitard/virtualLab-playbooks.git ~ansible/playbooks
