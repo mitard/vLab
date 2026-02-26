@@ -4,7 +4,7 @@ ansibleEnvURL="https://raw.githubusercontent.com/mitard/vLab/refs/heads/main/hos
 ansibleEnv="/var/tmp/AnsibleEnv.tar.gz"
 
 # Installation du paquet promoxer v2 nécessaire pour le module community.proxmox
-dpkg -i /var/python3-proxmoxer_2.2.0-2_all.deb
+dpkg -i /var/tmp/python3-proxmoxer_2.2.0-2_all.deb
 ansible-galaxy collection install git+https://github.com/ansible-collections/community.proxmox.git -p /usr/share/ansible/collections
 
 echo "" > $bannerFile
@@ -24,6 +24,8 @@ sed -i "s/PodID/${HOSTNAME: -1}/" ~ansible/.ansible/hostsPod
 cp /var/tmp/host ~ansible/.ansible/hosts
 cat ~ansible/.ansible/hostsPod >> ~ansible/.ansible/hosts
 rm ~ansible/.ansible/hostsPod
+
+cp /var/tmp/*Authentication.yml /home/ansible/
 
 # Récupération des scripts et playbooks Ansible
 git clone https://github.com/mitard/virtualLab-playbooks.git ~ansible/playbooks
