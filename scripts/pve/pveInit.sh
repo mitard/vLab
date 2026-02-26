@@ -33,7 +33,7 @@ mkdir /home/ansible/.ssh
 chown ansible:ansible /home/ansible/.ssh
 cp /root/vLab/hostFiles/pve/ansible-key.pub /home/ansible/.ssh/authorized_keys
 chown ansible:ansible /home/ansible/.ssh/authorized_keys
-pveum role add AnsibleMgmt --privs "Datastore.Allocate,Datastore.AllocateSpace,Datastore.Audit,Sys.Audit,Sys.Modify,Sys.PowerMgmt,VM.Allocate,VM.Audit,VM.Config.CDROM,VM.Config.Cloudinit,VM.Config.CPU,VM.Config.Disk,VM.Config.HWType,VM.Config.Memory,VM.Config.Network,VM.Config.Options,VM.Monitor,VM.PowerMgmt,SDN.Allocate,SDN.Use"
+pveum role add AnsibleMgmt --privs "Datastore.Allocate,Datastore.AllocateSpace,Datastore.Audit,Sys.Audit,Sys.Modify,Sys.PowerMgmt,VM.Allocate,VM.Audit,VM.Clone,VM.Config.CDROM,VM.Config.Cloudinit,VM.Config.CPU,VM.Config.Disk,VM.Config.HWType,VM.Config.Memory,VM.Config.Network,VM.Config.Options,VM.Monitor,VM.PowerMgmt,SDN.Allocate,SDN.Use"
 pveum user add ansible@pam --comment "Utilisateur Ansible pour automatisation des tâches"
 pveum user token add ansible@pam ansibleAPItoken --comment "Jeton d'acces pour automatisation Ansible" --privsep 0 > /var/tmp/tokenData
 pveum aclmod / -user ansible@pam -role AnsibleMgmt
