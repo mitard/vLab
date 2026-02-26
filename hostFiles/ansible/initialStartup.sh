@@ -26,6 +26,7 @@ cat ~ansible/.ansible/hostsPod >> ~ansible/.ansible/hosts
 rm ~ansible/.ansible/hostsPod
 
 cp /var/tmp/*Authentication.yml /home/ansible/
+chown ansible:ansible /home/ansible/*Authentication.yml
 
 # Récupération des scripts et playbooks Ansible
 git clone https://github.com/mitard/virtualLab-playbooks.git ~ansible/playbooks
