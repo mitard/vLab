@@ -49,6 +49,6 @@ echo "pve_api_token_id: $tokenName" >> $authenticationFileDir/$authenticationFil
 echo "pve_api_token_secret: $token" >> $authenticationFileDir/$authenticationFileName
 
 # Installation du package python3-proxmoxer depuis la version Trixie (Debian 13)
-#curl -LO http://ftp.de.debian.org/debian/pool/main/p/proxmoxer/python3-proxmoxer_2.2.0-2_all.deb
-#dpkg -i python3-proxmoxer_2.2.0-2_all.deb
-#rm python3-proxmoxer_2.2.0-2_all.deb
+curl -LO http://ftp.de.debian.org/debian/pool/main/p/proxmoxer/python3-proxmoxer_2.2.0-2_all.deb
+dpkg -i python3-proxmoxer_2.2.0-2_all.deb
+rm python3-proxmoxer_2.2.0-2_all.deb

@@ -78,7 +78,7 @@ virt-customize -a $tmpImageFile --edit '/etc/ssh/sshd_config.d/60-cloudimg-setti
 # Personnalisation de la bannière de connexion SSH
 virt-customize -a $tmpImageFile --edit "/etc/ssh/sshd_config: s/#Banner none/Banner ${bannerFile////\\/}/"
 # Copie des fichiers de configuration de l'environnement Ansible
-virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/python3-proxmoxer_2.2.0-2_all.deb:/var/tmp
+#virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/python3-proxmoxer_2.2.0-2_all.deb:/var/tmp
 virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/"$HOSTNAME"Authentication.yml:/var/tmp
 #virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/AnsibleEnv.tar.gz:/var
 #virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/init.sh:/root
