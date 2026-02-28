@@ -3,6 +3,7 @@ bannerFile=/etc/ssh/ssh_banner
 ansibleEnvURL="https://raw.githubusercontent.com/mitard/vLab/refs/heads/main/hostFiles/ansible/AnsibleEnv.tar.gz"
 ansibleEnv="/var/tmp/AnsibleEnv.tar.gz"
 authenticationFilename=`ls /var/tmp/*Authentication.yml`
+authenticationFilename=`basename $authenticationFilename`
 
 # Installation du paquet promoxer v2 nécessaire pour le module community.proxmox
 #dpkg -i /var/tmp/python3-proxmoxer_2.2.0-2_all.deb
@@ -14,7 +15,7 @@ echo "" >> $bannerFile
 figlet -c -f term 'Serveur Ansible (Automatisation de la gestion du lab)' >> $bannerFile
 echo "" >> $bannerFile
 echo "export PodID=${HOSTNAME: -1}" >> ~ansible/.profile
-echo "export authenticationFile=/home/ansible/$authenticationFilename"
+echo "export authenticationFile=/home/ansible/$authenticationFilename" >> ~ansible/.profile
 
 # Installation de l'environnement Ansible pour l'utilisateur ansible
 curl --location $ansibleEnvURL --output $ansibleEnv
