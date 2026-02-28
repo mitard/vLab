@@ -22,7 +22,7 @@ echo "" >> $bannerFile
 # Initialisation des variables d'environnement dans le fichier .profile
 echo "export PodID=${HOSTNAME: -1}" >> ~ansible/.profile
 echo "export authenticationFile=/home/ansible/$authenticationFilename" >> ~ansible/.profile
-# Initialisation des variables d'environnement dans le fichier .profile
+echo "export routerTmplName=$routerTmplName" >> ~ansible/.profile
 
 # Installation de l'environnement Ansible pour l'utilisateur ansible
 curl --location $ansibleEnvURL --output $ansibleEnv
