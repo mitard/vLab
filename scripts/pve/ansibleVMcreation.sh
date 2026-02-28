@@ -46,7 +46,7 @@ if [ $# -ne 0 ]; then
 fi
 
 # Création du modèle de VM Ansible
-#/root/vLab/scripts/pve/ansibleSrvTmplCreation.sh -f /var/lib/vz/template/iso/noble-server-cloudimg-amd64.img -i $AnsibleTmplID -n Ansible-Ubuntu24
+/root/vLab/scripts/pve/ansibleSrvTmplCreation.sh -f /var/lib/vz/template/iso/noble-server-cloudimg-amd64.img -i $AnsibleTmplID -n Ansible-Ubuntu24
 
 # Instanciation des VM Ansible
 for (( indice=1; indice<=$nbVM; indice++ )) do
