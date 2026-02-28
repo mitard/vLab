@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# 2026-02-28 - V. Mitard : Création initialisation d'une machine virtuelle Ansible au 1er démarrage
+#
+# Initialisation de la bannière de connexion
 bannerFile=/etc/ssh/ssh_banner
 ansibleEnvURL="https://raw.githubusercontent.com/mitard/vLab/refs/heads/main/hostFiles/ansible/AnsibleEnv.tar.gz"
 ansibleEnv="/var/tmp/AnsibleEnv.tar.gz"
@@ -14,8 +18,11 @@ figlet -c -f slant -k "Pod ${HOSTNAME: -1}" >> $bannerFile
 echo "" >> $bannerFile
 figlet -c -f term 'Serveur Ansible (Automatisation de la gestion du lab)' >> $bannerFile
 echo "" >> $bannerFile
+
+# Initialisation des variables d'environnement dans le fichier .profile
 echo "export PodID=${HOSTNAME: -1}" >> ~ansible/.profile
 echo "export authenticationFile=/home/ansible/$authenticationFilename" >> ~ansible/.profile
+# Initialisation des variables d'environnement dans le fichier .profile
 
 # Installation de l'environnement Ansible pour l'utilisateur ansible
 curl --location $ansibleEnvURL --output $ansibleEnv

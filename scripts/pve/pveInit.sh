@@ -3,9 +3,11 @@
 # Script de configuration initiale d'un hyperviseur Proxmox
 #
 # 2026-02-21 - Mitard V. : Création
+# 2026-02-28 - Mitard V. : Ajout de l'initialisation du nom de modèle de routeur
 #
 authenticationFileName="$HOSTNAME"Authentication.yml
 authenticationFileDir=~/vLab/hostFiles/ansible
+echo "export routerTmplName=FRR8.4-Debian12" >> /root/.profile
 
 # Installation de paquets complémentaires
 apt-get install -y figlet libguestfs-tools
