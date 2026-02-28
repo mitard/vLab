@@ -86,7 +86,7 @@ virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/proxmox.y
 virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/host:/var/tmp
 # Configuration intiale au démarrage
 virt-customize -a $tmpImageFile --firstboot-command "curl --location $startupScriptURL --output $startupScript;chmod a+x $startupScript;$startupScript"
-virt-customize -a $tmpImageFile --run-command "echo 'export routerTmplName=$routerTmplName' >> /root/.profile"
+virt-customize -a $tmpImageFile --run-command "echo 'export routerTmplName=$routerTmplName' >> /var/tmp/routerTmplName"
 
 # Désactivation de l'IPv6
 virt-customize -a $tmpImageFile --edit '/etc/default/grub: s/^GRUB_CMDLINE_LINUX_DEFAULT="quiet splash/GRUB_CMDLINE_LINUX_DEFAULT="quiet ipv6.disable=1/'
