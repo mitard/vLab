@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # 2026-11-21 - V. Mitard : Création
+# 2026-03-01 - V. Mitard : Mise à jour de l'aide en ligne
 #
 
 scriptName=`basename $0`
@@ -23,7 +24,7 @@ while getopts "a:dDf:g:hHi:n:" opt; do
     g) gwIPaddress=$OPTARG
        ;;
     h|H) echo -e "\n-I- $scriptName permet la création d'une passerelle virtuel à partir d'une image QCOW2 Debian"
-         echo -e "-I- $scriptName -a <@IP >[-d|-D] [-h|-H] -f <Chemin complet de l'image QCOW2> -i <VMID> -n <Nom de la VM>"
+         echo -e "-I- $scriptName -a <@IP > <@IP Passerelle> [-d|-D] [-h|-H] -f <Chemin complet de l'image QCOW2> -i <VMID> -n <Nom de la VM>"
          echo -e "\t-a   : Adresse IP exposée de la passerelle."
          echo -e "\t-d|D : Activation du débogage."
          echo -e "\t-h|H : Affichage de cette aide en ligne."
@@ -36,6 +37,7 @@ while getopts "a:dDf:g:hHi:n:" opt; do
     n) VMname=$OPTARG
        ;;
     *) echo -e "\n-E- Option $opt invalide !\n"
+       exit 1
        ;;
   esac
 done
@@ -45,6 +47,16 @@ shift $((OPTIND-1))
 if [ $# -ne 0 ]; then
   echo -e "\n-E- Argument(s) $* invalide pour ce script !\n"
   exit 4
+fi
+
+if [ ! -v IPaddress ]; then
+  echo -e "\n-E- L'adresse externe de la passerelle n'est pas définie\n"
+  exit 1
+fi
+
+if [ ! -v gwIPaddress ]; then
+  echo -e "\n-E- La passerelle par défaut n'est pas définie\n"
+  exit 1
 fi
 
 if [ ! -f $imageFullPath ]; then
