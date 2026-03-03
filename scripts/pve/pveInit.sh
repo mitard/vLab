@@ -50,6 +50,10 @@ echo "pve_api_user: $userName" >> $authenticationFileDir/$authenticationFileName
 echo "pve_api_token_id: $tokenName" >> $authenticationFileDir/$authenticationFileName
 echo "pve_api_token_secret: $token" >> $authenticationFileDir/$authenticationFileName
 
+# Initialisation du fichier "hôtes" Ansible
+echo "["$HOSTNAME"]" > /root/vLab/hostFiles/ansible/host
+echo `ip address show dev vmbr0 scope global | grep inet | tr -s ' ' | cut -d' ' -f3 | cut -d'/' -f1` >> /root/vLab/hostFiles/ansible/host
+
 # Installation du package python3-proxmoxer depuis la version Trixie (Debian 13)
 curl -LO http://ftp.de.debian.org/debian/pool/main/p/proxmoxer/python3-proxmoxer_2.2.0-2_all.deb
 dpkg -i python3-proxmoxer_2.2.0-2_all.deb
