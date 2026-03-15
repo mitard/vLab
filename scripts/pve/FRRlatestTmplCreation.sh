@@ -65,7 +65,7 @@ guestunmount /mnt/iso
 
 echo "-I- Installation de la dernière version de FRR à partir des dépôts du projet"
 virt-customize -a $tmpImageFile --run-command 'curl -s https://deb.frrouting.org/frr/keys.gpg | sudo tee /usr/share/keyrings/frrouting.gpg > /dev/null'
-virt-customize -a $tmpImageFile --run-command "echo deb '[signed-by=/usr/share/keyrings/frrouting.gpg]' https://deb.frrouting.org/frr bookworm frr-stable | sudo tee -a /etc/apt/sources.list.d/frr.list"
+virt-customize -a $tmpImageFile --run-command "echo deb '[signed-by=/usr/share/keyrings/frrouting.gpg]' https://deb.frrouting.org/frr `grep VERSION_CODENAME /etc/os-release | cut -d'=' -f2` frr-stable | sudo tee -a /etc/apt/sources.list.d/frr.list"
 
 echo "-I- Installation et mise à jour des paquets"
 # Installation des paquets d'agent QEMU, FRR et des utilitaires figlet, mtr, tcpdump & WireShark, et mise à jour des paquets
