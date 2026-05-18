@@ -54,7 +54,7 @@ fi
 # Instanciation des VM Ansible
 for (( indice=1; indice<=$nbVM; indice++ )) do
   VMID=$(($base+$indice))
-  tput setaf 3 echo "-I- Création de la VM $indice d'ID $VMID"; tput sgr0
+  tput setaf 3; echo "-I- Création de la VM $indice d'ID $VMID"; tput sgr0
   qm clone $AnsibleTmplID $VMID --full 1 --name $HOSTNAME-Ansible-Pod$indice
   qm set $VMID --ipconfig0 ip=172.16.$indice.2/16,gw=172.16.0.1 --onboot 1
 done
