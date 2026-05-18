@@ -25,7 +25,7 @@ while getopts "a:dDf:g:hHi:n:" opt; do
          ;;
     h|H) tput setaf 6;
          echo -e "\n-I- $scriptName permet la création d'une passerelle virtuel à partir d'une image QCOW2 Debian"
-         echo -e "-I- $scriptName -a <@IP > <@IP Passerelle> [-d|-D] [-h|-H] -f <Chemin complet de l'image QCOW2> -i <VMID> -n <Nom de la VM>"
+         echo -e "-I- $scriptName -a <@IP > -g <@IP Passerelle> [-d|-D] [-h|-H] -f <Chemin complet de l'image QCOW2> -i <VMID> -n <Nom de la VM>"
          echo -e "\t-a   : Adresse IP exposée de la passerelle."
          echo -e "\t-d|D : Activation du débogage."
          echo -e "\t-h|H : Affichage de cette aide en ligne."
