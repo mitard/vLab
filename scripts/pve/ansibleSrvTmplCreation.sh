@@ -2,6 +2,7 @@
 #
 # 2026-01-12 - V. Mitard : Création
 # 2026-01-30 - V. Mitard : Adaptation à une nouvelle architecture de répertoire
+# 2026-05-18 - V. Mitard : Coloration des messages
 #
 # $1 : Fichier qcow2 à personnaliser
 # $2 : No PVE de modèle
@@ -13,8 +14,8 @@ startupScriptURL="https://raw.githubusercontent.com/mitard/vLab/refs/heads/main/
 startupScript="/root/initialStartup.sh"
 
 if [ $# -eq 0 ]; then
-  echo -e "\n-E- Paramètres obligatoires absents !"
-  echo -e "-I- $scriptName -h|-H pour obtenir l'aide en ligne.\n"
+  tput setaf 1; echo -e "\n-E- Paramètres obligatoires absents !"; tput sgr0
+  tput setaf 3; echo -e "-I- $scriptName -h|-H pour obtenir l'aide en ligne.\n"; tput sgr0
   exit 1
 fi
 
@@ -22,40 +23,42 @@ while getopts "dDf:hHi:mn:" opt; do
   case $opt in
     d|D) set -x
          ;;
-    f) imageFile=`basename $OPTARG`
-       imageFullPath=`realpath $OPTARG`
-       ;;
-    h|H) echo -e "\n-I- $scriptName permet la création d'un modèle de VM Ansible, basé sur Ubuntu, pour la gestion d'un lab de routage virtuel."
+    f)   imageFile=`basename $OPTARG`
+         imageFullPath=`realpath $OPTARG`
+         ;;
+    h|H) tput setaf 6
+         echo -e "\n-I- $scriptName permet la création d'un modèle de VM Ansible, basé sur Ubuntu, pour la gestion d'un lab de routage virtuel."
          echo -e "-I- $scriptName [-d|-D] [-h|-H] -f <Chemin complet de l'image .IMG Ubuntu de base> -i <ID du modèle à créer> -n <Nom du modèle à créer>"
          echo -e "\t-d/-D: Activation du débogage."
-         echo -e "\t-h/-H: Affichage de cette aide en ligne."
+         echo -e "\t-h/-H: Affichage de cette aide en ligne.\n"
+         tput sgr0
          exit 0
          ;;
-    i) ID=$OPTARG
-       ;;
-    n) templateName=$OPTARG
-       ;;
-    *) echo "\n-E- Option $opt invalide !\n"
-       ;;
+    i)   ID=$OPTARG
+         ;;
+    n)   templateName=$OPTARG
+         ;;
+    *)   tput setaf 1; echo "\n-E- Option $opt invalide !\n"; tput sgr0
+         ;;
   esac
 done
 
 shift $((OPTIND-1))
 
 if [ $# -ne 0 ]; then
-  echo -e "\n-E- Argument(s) $* invalide pour ce script !\n"
+  tput setaf 1; echo -e "\n-E- Argument(s) $* invalide pour ce script !\n"; tput sgr0
   exit 2
 fi
 
 res=`qm list | tr -s ' ' | cut -d' ' -f2 | grep $ID`
 
 if [ "$res" != "" ]; then
-  echo -e "\n-E- ID de machine virtuelle ou de modèle existant !\n"
+  tput setaf 1; echo -e "\n-E- ID de machine virtuelle ou de modèle existant !\n"; tput sgr0
   exit 4
 fi
 
 if [ ! -f $imageFullPath ]; then
-  echo -e "\n-E- Fichier image IMG non trouvé !\n"
+  tput setaf 1; echo -e "\n-E- Fichier image IMG non trouvé !\n"; tput sgr0
   exit 3
 else
   tmpImageFile="/var/tmp/ansibleTemporaryImageFile.qcow2"
@@ -78,10 +81,7 @@ virt-customize -a $tmpImageFile --edit '/etc/ssh/sshd_config.d/60-cloudimg-setti
 # Personnalisation de la bannière de connexion SSH
 virt-customize -a $tmpImageFile --edit "/etc/ssh/sshd_config: s/#Banner none/Banner ${bannerFile////\\/}/"
 # Copie des fichiers de configuration de l'environnement Ansible
-#virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/python3-proxmoxer_2.2.0-2_all.deb:/var/tmp
 virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/"$HOSTNAME"Authentication.yml:/var/tmp
-#virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/AnsibleEnv.tar.gz:/var
-#virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/init.sh:/root
 virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/proxmox.yml:/root
 virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/ansible/host:/var/tmp
 # Configuration intiale au démarrage

@@ -10,7 +10,6 @@ authenticationFilename=`ls /var/tmp/*Authentication.yml`
 authenticationFilename=`basename $authenticationFilename`
 
 # Installation du paquet promoxer v2 nécessaire pour le module community.proxmox
-#dpkg -i /var/tmp/python3-proxmoxer_2.2.0-2_all.deb
 ansible-galaxy collection install git+https://github.com/ansible-collections/community.proxmox.git -p /usr/share/ansible/collections
 
 echo "" > $bannerFile

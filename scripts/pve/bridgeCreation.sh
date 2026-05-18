@@ -14,31 +14,33 @@ fi
 
 while getopts "a:dDf:g:hHi:n:" opt; do
   case $opt in
-    a) IPaddress=$OPTARG
-       ;;
+    a)   IPaddress=$OPTARG
+         ;;
     d|D) set -x
          ;;
-    f) imageFile=`basename $OPTARG`
-       imageFullPath=`realpath $OPTARG`
-       ;;
-    g) gwIPaddress=$OPTARG
-       ;;
-    h|H) tput setaf 3;echo -e "\n-I- $scriptName permet la création d'une passerelle virtuel à partir d'une image QCOW2 Debian"
+    f)   imageFile=`basename $OPTARG`
+         imageFullPath=`realpath $OPTARG`
+         ;;
+    g)   gwIPaddress=$OPTARG
+         ;;
+    h|H) tput setaf 6;
+         echo -e "\n-I- $scriptName permet la création d'une passerelle virtuel à partir d'une image QCOW2 Debian"
          echo -e "-I- $scriptName -a <@IP > <@IP Passerelle> [-d|-D] [-h|-H] -f <Chemin complet de l'image QCOW2> -i <VMID> -n <Nom de la VM>"
          echo -e "\t-a   : Adresse IP exposée de la passerelle."
          echo -e "\t-d|D : Activation du débogage."
          echo -e "\t-h|H : Affichage de cette aide en ligne."
          echo -e "\t-i   : ID de la machine virtuelle."
-         echo -e "\t-n   : Nom de la machine virtuelle.\n"; tput sgr0
+         echo -e "\t-n   : Nom de la machine virtuelle.\n";
+         tput sgr0
          exit 0
          ;;
-    i) ID=$OPTARG
-       ;;
-    n) VMname=$OPTARG
-       ;;
-    *) tput setaf 1;echo -e "\n-E- Option $opt invalide !\n"; tput sgr0
-       exit 1
-       ;;
+    i)   ID=$OPTARG
+         ;;
+    n)   VMname=$OPTARG
+         ;;
+    *)   tput setaf 1;echo -e "\n-E- Option $opt invalide !\n"; tput sgr0
+         exit 1
+         ;;
   esac
 done
 
@@ -72,30 +74,30 @@ dd if=/dev/urandom of=/mnt/iso/var/lib/systemd/random-seed bs=512 count=4
 chmod 755 /mnt/iso/var/lib/systemd/random-seed
 guestunmount /mnt/iso
 
-tput setaf 6;echo -e "-I- Installation et mise à jour des paquets"; tput sgr0
+tput setaf 3;echo -e "-I- Installation et mise à jour des paquets"; tput sgr0
 virt-customize -a $tmpImageFile --install qemu-guest-agent,iptables,iptables-persistent
 virt-customize -a $tmpImageFile --update
 
-tput setaf 6;echo -e "-I- Copie de fichiers de configuration"; tput sgr0
+tput setaf 3;echo -e "-I- Copie de fichiers de configuration"; tput sgr0
 virt-customize -a $tmpImageFile --copy-in /root/vLab/hostFiles/bridge/rules.v4:/etc/iptables
 
-tput setaf 6;echo -e "-I- Configuration de l'accès distant SSH"; tput sgr0
+tput setaf 3;echo -e "-I- Configuration de l'accès distant SSH"; tput sgr0
 # Autorisation de la connexion SSH par login/password
 virt-customize -a $tmpImageFile --edit '/etc/ssh/sshd_config: s/PasswordAuthentication no/PasswordAuthentication yes/'
 # Personnalisation de la bannière de connexion SSH
 virt-customize -a $tmpImageFile --edit '/etc/ssh/sshd_config: s/#Banner none/Banner \/etc\/ssh\/ssh_banner/'
 
-tput setaf 6;echo -e "-I- Configuration du routage IPv4"; tput sgr0
+tput setaf 3;echo -e "-I- Configuration du routage IPv4"; tput sgr0
 # Activation du routage IPv4
 virt-customize -a $tmpImageFile --edit '/etc/sysctl.conf: s/#net.ipv4.ip_forward/net.ipv4.ip_forward/'
 
-tput setaf 6;echo -e "-I- Désactivation de l'IPv6"; tput sgr0
+tput setaf 3;echo -e "-I- Désactivation de l'IPv6"; tput sgr0
 # Désactivation de l'IPv6
 virt-customize -a $tmpImageFile --edit '/etc/default/grub: s/^GRUB_CMDLINE_LINUX_DEFAULT="/GRUB_CMDLINE_LINUX_DEFAULT="quiet ipv6.disable=1/'
 virt-customize -a $tmpImageFile --run-command 'update-grub'
 virt-customize -a $tmpImageFile --run-command 'truncate -s 0 /etc/machine-id'
 
-tput setaf 6;echo -e "-I- Création et personnalisation de la machine virtuelle"; tput sgr0
+tput setaf 3;echo -e "-I- Création et personnalisation de la machine virtuelle"; tput sgr0
 qm create $ID --name $VMname --cores 1 --memory 512 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=mgmtNets --scsihw virtio-scsi-pci --agent 1 --onboot --ciuser net-admin --cipassword admin --ipconfig0 ip=$IPaddress,gw=$gwIPaddress --ipconfig1 ip=172.16.0.1/16
 
 qm set $ID --virtio0 local-lvm:0,import-from=$tmpImageFile > /dev/null
@@ -105,6 +107,6 @@ qm set $ID --boot order=virtio0
 # Suppression de l'image temporaire
 rm $tmpImageFile
 
-tput setaf 6;echo -e "-I- Démarrage de la passerelle virtuelle\n"; tput sgr0
+tput setaf 3;echo -e "-I- Démarrage de la passerelle virtuelle\n"; tput sgr0
 # Démarrage de la VM
 qm start $ID

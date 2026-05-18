@@ -139,6 +139,33 @@
 -A PREROUTING -i eth0 -p tcp -m tcp --dport 22941 -j DNAT --to-destination 172.16.9.41:22
 -A PREROUTING -i eth0 -p tcp -m tcp --dport 22942 -j DNAT --to-destination 172.16.9.42:22
 -A PREROUTING -i eth0 -p tcp -m tcp --dport 22950 -j DNAT --to-destination 172.16.9.50:22
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44120 -j DNAT --to-destination 172.16.1.20:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44130 -j DNAT --to-destination 172.16.1.30:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44140 -j DNAT --to-destination 172.16.1.40:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44220 -j DNAT --to-destination 172.16.2.20:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44230 -j DNAT --to-destination 172.16.2.30:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44240 -j DNAT --to-destination 172.16.2.40:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44320 -j DNAT --to-destination 172.16.3.20:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44330 -j DNAT --to-destination 172.16.3.30:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44340 -j DNAT --to-destination 172.16.3.40:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44420 -j DNAT --to-destination 172.16.4.20:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44430 -j DNAT --to-destination 172.16.4.30:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44440 -j DNAT --to-destination 172.16.4.40:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44520 -j DNAT --to-destination 172.16.5.20:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44530 -j DNAT --to-destination 172.16.5.30:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44540 -j DNAT --to-destination 172.16.5.40:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44620 -j DNAT --to-destination 172.16.6.20:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44630 -j DNAT --to-destination 172.16.6.30:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44640 -j DNAT --to-destination 172.16.6.40:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44720 -j DNAT --to-destination 172.16.7.20:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44720 -j DNAT --to-destination 172.16.7.20:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44730 -j DNAT --to-destination 172.16.7.30:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44840 -j DNAT --to-destination 172.16.8.40:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44830 -j DNAT --to-destination 172.16.8.30:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44840 -j DNAT --to-destination 172.16.8.40:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44940 -j DNAT --to-destination 172.16.9.40:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44930 -j DNAT --to-destination 172.16.9.30:80
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 44940 -j DNAT --to-destination 172.16.9.40:80
 -A POSTROUTING -o eth0 -j MASQUERADE
 COMMIT
 # Completed on Mon Jan 12 07:34:49 2026

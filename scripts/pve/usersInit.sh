@@ -12,7 +12,7 @@ while getopts "dDhH" opt; do
   case $opt in
     d|D) set -x
          ;;
-    h|H) tput setaf 3
+    h|H) tput setaf 6
          echo -e "\n-I- $scriptName permet la création des utilisateurs de 9 Pods et des pools de ressources associés l'environnement de TP réseau"
          echo -e "-I- $scriptName [-d|-D] [-h|-H]"
          echo -e "\t-d|-D: Activativation des traces de débogage."
