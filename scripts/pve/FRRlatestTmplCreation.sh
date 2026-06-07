@@ -80,6 +80,7 @@ tput setaf 3; echo "-I- Copie de fichiers de configuration"; tput sgr0
 # Copie du fichier de création d'une VRF pour l'interface de management du routeur
 virt-customize -a $tmpImageFile --copy-in $cfgFilesDir/mgmt-vrf-interfaces.yaml:/usr/local/src
 virt-customize -a $tmpImageFile --copy-in $cfgFilesDir/mgmt-vrf-conf.sh:/usr/local/bin
+virt-customize -a $tmpImageFile --copy-in $cfgFilesDir/clients-vrf-conf.sh:/usr/local/bin
 
 #tput setaf 3; echo "-I- Initialisation des fichiers de bannières au 1er démarrage"; tput sgr0
 #virt-customize -a $tmpImageFile --firstboot-command 'figlet -c -f small $HOSTNAME >> /etc/ssh/ssh_banner'
